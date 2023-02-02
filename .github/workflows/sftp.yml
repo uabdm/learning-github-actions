@@ -1,0 +1,31 @@
+name: Deploy to remote web server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Configure SFTP credentials
+      uses: cytopia/sftp-action@v1
+      with:
+        host: example.com
+        username: SFTP_USERNAME
+        password: SFTP_PASSWORD
+
+    - name: Upload files via SFTP
+      uses: cytopia/sftp-action@v1
+      with:
+        host: example.com
+        username: SFTP_USERNAME
+        password: SFTP_PASSWORD
+        upload: '**/*'
+        target: /path/to/remote/web/server
+        show_progress: true
